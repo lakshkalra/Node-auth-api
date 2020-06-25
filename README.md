@@ -9,5 +9,7 @@ TOKEN_SECRET = "your secret key"
 AUTHORITY_TOKEN_SECRET = "your secret key"
 
 #To RUN
+
 npm install
+
 npm start
