@@ -9,6 +9,7 @@ const app = express();
 const authRoute = require('./routes/user_auth');
 const userroute = require('./routes/dashboard');
 const authoritiesRoute = require('./routes/authorities_auth');
+const resutRoute = require('./routes/result');
 
 dotenv.config();
 
@@ -28,8 +29,9 @@ app.use(express.json());
 // ROute middleware
 app.use('/user', authRoute);
 app.use('/user', userroute);
+app.use('/user', resutRoute)
 app.use('/authorities', authoritiesRoute);
 app.use('/authorities', require('./routes/new'))
 
-const port = 4896
+const port = 8080
 app.listen(port, () => console.log(`server on port ${port}`));
