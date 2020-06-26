@@ -1,10 +1,12 @@
 const router = require('express').Router();
-const {cost_map, time_map} = require('../calcs/graph')
+const {cost_map, time_map} = require('../calcs/graph');
+const verify = require('./user_verification');
+
 
 
 // console.log(cost_map(source, destination))
 
-router.post('/result', (req, res) => {
+router.post('/result', verify, (req, res) => {
     let time = 0
     let price = 0
     let cost_efficient_arr = []
