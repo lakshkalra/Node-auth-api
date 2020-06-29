@@ -3,6 +3,7 @@ const ejs = require('ejs');
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const app = express();
+const cors = require('cors')
 
 
 // import routes
@@ -25,6 +26,7 @@ mongoose.connect(
 
 // middleware
 app.use(express.json());
+app.use(cors())
 
 // ROute middleware
 app.use('/user', authRoute);
