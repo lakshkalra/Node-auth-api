@@ -33,7 +33,6 @@ app.use('/user', authRoute);
 app.use('/user', userroute);
 app.use('/user', resutRoute)
 app.use('/authorities', authoritiesRoute);
-app.use('/authorities', require('./routes/new'))
 
-const port = 8080
+const port = 8070
 app.listen(port, () => console.log(`server on port ${port}`));
