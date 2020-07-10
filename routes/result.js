@@ -1,79 +1,103 @@
+const {cost_map} = require('../calcs/graph');
 const router = require('express').Router();
-// <<<<<<< HEAD
-const {cost_map, time_map} = require('../calcs/graph');
-// =======
-// const {cost_map, time_map} = require('../calcs/graph')
-// >>>>>>> b0d44431a68b9098b714141a284b934c87e232b2
-const verify = require('./user_verification');
+const fs = require('fs')
 
 
-
-// console.log(cost_map(source, destination))
-
-// <<<<<<< HEAD
-router.post('/result', verify, (req, res) => {
-// =======
-// router.post('/result',verify, (req, res) => {
-// >>>>>>> b0d44431a68b9098b714141a284b934c87e232b2
+router.get('/result', (req,res)=>{
+    
     let time = 0
-    let price = 0
-    let cost_efficient_arr = []
-    let time_efficient_arr = []
-
+    let distr_arr = []
+    let transport = {}
+   
     const source = req.body.source
     const destination = req.body.destination
+    const reach_time = Number((req.body.reach_time).replace(":",""))
 
     const Cost_map = cost_map(source, destination);
-    const Time_map = time_map(source, destination);
 
-    // console.log(Cost_map.path.length, Time_map.path.length)
-
-    // TIME TAKEN BY COST EFFICIENT ROUTE
     time = 0
-    cost_efficient_arr = []
+    distr_arr = []
     for(i=0; i < (Cost_map.path.length) -1; i++){
         const first = Cost_map.path[i];
         const second = Cost_map.path[i+1];
 
-        const time_taken = time_map(first, second)
-
-        const distr_path = (first + `  --[${time_taken.cost} mins]-->  `+ second);
-
-        cost_efficient_arr.push(distr_path);
-        time += time_taken.cost
-    }
-
-    // PRICE OF TIME EFFICIENT ROUTE
-    price = 0
-    time_efficient_arr = []
-    for(i=0; i < (Time_map.path.length) -1; i++){
-        const first = Time_map.path[i];
-        const second = Time_map.path[i+1];
-
-        const amount = cost_map(first, second);
+        const speed = 50
+        const time_taken = (cost_map(first, second).cost/50)*60 
         
-        const distr_path = (first + `  --[${amount.cost} mins]--> `+ second);
+        const distr_path = (first + `  --[${time_taken.toFixed(2)} mins]-->  `+ second);
 
-        time_efficient_arr.push(distr_path);
-        price += amount.cost
+        distr_arr.push(distr_path);
+        time += time_taken
     }
+    transport = {}
+
+    for(i=0;i<Cost_map.path.length;i++){
+        if(Cost_map.path[i].includes('_B')){
+            // bus.push(Cost_map.path[i])
+            transport['bus'+i] = Cost_map.path[i].substring(0, Cost_map.path[i].indexOf("_"))
+        }
+        else if(Cost_map.path[i].includes('_MB')){
+            if(i == 0){
+                if(Cost_map.path[i+1].includes('_B')){
+                    // bus.push(Cost_map.path[i])
+                    transport['bus'+i] = Cost_map.path[i].substring(0, Cost_map.path[i].indexOf("_"))
+                }else if(!Cost_map.path[i+1].includes('_B')){
+                    // intermediatea.push(Cost_map.path[i])
+                    transport['change'+1] = Cost_map.path[i].substring(0, Cost_map.path[i].indexOf("_"))
+                }
+            }else {
+                if(Cost_map.path[i+1].includes('_B') && Cost_map.path[i-1].includes('_B')){
+                    // bus.push(Cost_map.path[i])
+                    transport['bus'+1] = Cost_map.path[i].substring(0, Cost_map.path[i].indexOf("_"))
+                }else if((Cost_map.path[i-1].includes('_B') && !Cost_map.path[i+1].includes('_B'))){
+                    // intermediatea.push(Cost_map.path[i])
+                    transport['change'+i] = (Cost_map.path[i].substring(0, Cost_map.path[i].indexOf("_"))+ " Bus --> " 
+                                        +  Cost_map.path[i].substring(0, Cost_map.path[i].indexOf("_"))+ " Metro")
+                }else if((!Cost_map.path[i-1].includes('_B') && Cost_map.path[i+1].includes('_B'))){
+                    // intermediatea.push(Cost_map.path[i])
+                    transport['change'+i] = (Cost_map.path[i].substring(0, Cost_map.path[i].indexOf("_"))+ " Metro --> " 
+                                        +  Cost_map.path[i].substring(0, Cost_map.path[i].indexOf("_"))+ " Bus")
+                }else if((!Cost_map.path[i-1].includes('_B') && !Cost_map.path[i+1].includes('_B'))){
+                    // intermediatea.push(Cost_map.path[i])
+                    transport['metro'+i] = Cost_map.path[i].substring(0, Cost_map.path[i].indexOf("_"))
+                }
+            }
+
+        }else if(!Cost_map.path[i].includes('_B') && !Cost_map.path[i].includes('_MB')){
+            // metro.push(Cost_map.path[i])
+            transport['metro'+i] = Cost_map.path[i]
+        }
+    }
+
+
+    function timeConvert(n) {
+        const num = n;
+        const hours = (num / 60);
+        const rhours = Math.floor(hours);
+        const minutes = (hours - rhours) * 60;
+        const rminutes = Math.round(minutes);
+        return rhours + ":" + rminutes;
+        }
+        
+        String.prototype.splice = function(idx, rem, str) {
+            return this.slice(0, idx) + str + this.slice(idx + Math.abs(rem));
+        };
+
+        const time_taken_hr = Number(timeConvert(time).replace(":",""))
+        const arrival_time = String(reach_time-time_taken_hr)
+
 
 
     res.json({
-        cost_efficient_route: {
-            path: Cost_map.path,
-            price: Cost_map.cost,
-            "time taken": time,
-            "distributed path": cost_efficient_arr
-        },
-        time_efficient_route: {
-            path: Time_map.path,
-            price: price,
-            "time taken": Time_map.cost,
-            "distributed path": time_efficient_arr
-        },
-    })
+        'Best route': {
+            path: transport,
+            'total distance': `${Cost_map.cost}km`,
+            "time taken": `${time} mins`,
+            "arrival time": arrival_time,
+            "distributed path": distr_arr
 
+        }
+    })
 
 })
 

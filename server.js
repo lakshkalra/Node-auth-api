@@ -10,7 +10,6 @@ const cors = require('cors')
 const authRoute = require('./routes/user_auth');
 const userroute = require('./routes/dashboard');
 const authoritiesRoute = require('./routes/authorities_auth');
-const resutRoute = require('./routes/result');
 
 dotenv.config();
 
@@ -31,8 +30,8 @@ app.use(cors())
 // ROute middleware
 app.use('/user', authRoute);
 app.use('/user', userroute);
-app.use('/user', resutRoute)
 app.use('/authorities', authoritiesRoute);
+app.use('/user', require('./routes/result'))
 
-const port = 8070
+const port = 8080
 app.listen(port, () => console.log(`server on port ${port}`));

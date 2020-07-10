@@ -10,9 +10,9 @@ const {user_register_validation, user_login_validation} = require('../validation
 // router.post('/apple', async (req,res)=>{
 //     console.log(req.body);
 //     res.status(200).json({"message":"recieved"})
-//     const salt = await bcrypt.genSalt(10);
-//     const applehash = await bcrypt.hash(req.body.first, salt);
-//     console.log(applehash)
+//     // const salt = await bcrypt.genSalt(10);
+//     // const applehash = await bcrypt.hash(req.body.first, salt);
+//     // console.log(applehash)
 // })
 // USER REGISTER
 router.post('/register',async (req, res) => {
@@ -32,11 +32,12 @@ router.post('/register',async (req, res) => {
     const salt = await bcrypt.genSalt(10);
     const hashedpassword = await bcrypt.hash(req.body.password, salt);
 
+    console.log(typeof(Number(req.body.contact)))
     // create new user
     const user = new User({
         first_name: req.body.first_name,
         last_name: req.body.last_name,
-        contact: req.body.contact,
+        contact: Number(req.body.contact),
         email: req.body.email,
         password: hashedpassword,
     });
@@ -72,7 +73,7 @@ router.post('/login', async(req, res) =>{
 
     // CREATE AND ASSIGN TOKEN
     const token = jwt.sign({_id: user._id}, process.env.TOKEN_SECRET);
-    res.header('auth-token', token).send(token);
+    res.header('auth-token', token).send({token});
 
 
     // res.send('Logged in');

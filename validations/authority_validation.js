@@ -40,8 +40,5 @@ const authority_login_validation = (data) => {
     };
     return Joi.validate(data, schema)
 }   
-
-
-
 module.exports.authority_register_validation = authority_register_validation; 
 module.exports.authority_login_validation = authority_login_validation;
