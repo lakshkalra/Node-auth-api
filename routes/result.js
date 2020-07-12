@@ -7,7 +7,7 @@ const fs = require('fs');
 var url = "mongodb://localhost:27017/";
 
 
-router.get('/result', (req,res)=>{
+router.post('/result', (req,res)=>{
     
     let time = 0
     let distr_arr = []
