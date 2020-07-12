@@ -8,8 +8,9 @@ const jwt = require('jsonwebtoken');
 router.post('/register',  async (req, res)=> {
     // Validate data before making the user
     const { error } = authority_register_validation(req.body);
-    if(error)
-        return res.status(400).send(error.details[0].message);
+    if(error){
+        console.log(error)
+        return res.status(400).send(error.details[0].message);}
 
     // CHECKING IF USER EXIST IN DATABASE
     const emailExist = await Authority.findOne({email: req.body.email});
@@ -45,8 +46,9 @@ router.post('/register',  async (req, res)=> {
 router.post('/login', async (req, res)=>{
     // Validate data before making the user
     const { error } = authority_login_validation(req.body);
-    if(error)
-        return res.status(400).send(error.details[0].message);    
+    if(error){
+        console.log(error);
+        return res.status(400).send(error.details[0].message);   } 
 
 
     // CHECKING IF ID_number EXIST
@@ -68,6 +70,7 @@ router.post('/login', async (req, res)=>{
 
     // CREATE AND ASSIGN TOKEN
     const token = jwt.sign({_id: authority._id}, process.env.AUTHORITY_TOKEN_SECRET);
+    
     res.header('authority-token', token).send(token);
 })
 

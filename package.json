@@ -21,7 +21,8 @@
     "mongoose": "^5.9.20",
     "node-dijkstra": "^2.5.0",
     "python": "0.0.4",
-    "python-shell": "^2.0.1"
+    "python-shell": "^2.0.1",
+    "qrcode": "^1.4.4"
   },
   "devDependencies": {
     "nodemon": "^2.0.4"
