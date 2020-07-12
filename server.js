@@ -1,5 +1,4 @@
 const express = require("express")
-const ejs = require('ejs');
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const app = express();
@@ -13,8 +12,6 @@ const authoritiesRoute = require('./routes/authorities_auth');
 
 dotenv.config();
 
-// SET EJS
-app.set("view engine", "ejs")
 
 // connect db
 mongoose.connect(
