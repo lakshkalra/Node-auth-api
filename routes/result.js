@@ -150,20 +150,29 @@ router.get('/result', (req,res)=>{
             }
         }
 
-        apple = {}
+        var apple = null
 
         console.log('newarr',newarr)
-          MongoClient.connect(url, { useUnifiedTopology: true }, function(err, db) {
-            if (err) throw err;
-            var dbo = db.db("ibm3");    
-            dbo.collection("buses").find({path: newarr[0]} ).toArray(function(err, result) {
-              if (err) throw err;
-              console.log(result[0].number)
-              apple['a'] = result[0].number
-                  
-              db.close();
-            });
-          });
+
+        var getConnection= function getConnection(callback) {
+            if (apple) {
+                callback(null,apple);}
+            else{
+                MongoClient.connect(url, { useUnifiedTopology: true }, function(err, db) {
+                    if (err) throw err;
+                    var dbo = db.db("ibm3");    
+                    dbo.collection("buses").find({path: newarr[0]} ).toArray(function(err, result) {
+                      if (err) throw err;
+                      else{
+                        apple = result[0].number
+                        console.log('added')
+                      }
+                      callback(err,apple)
+                      
+                    });
+                  });
+            }
+        }
         
          console.log(apple)
     res.json({

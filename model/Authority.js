@@ -1,12 +1,7 @@
 const mongoose = require('mongoose');
 
 const authoritySchema = new mongoose.Schema({
-    first_name:{
-        type: String,
-        required: true,
-        min: 6
-    },
-    last_name:{
+    full_name:{
         type: String,
         required: true,
         min: 6

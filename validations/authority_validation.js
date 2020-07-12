@@ -3,10 +3,7 @@ const Joi = require('@hapi/joi');
 // AUTHORITY REGISTER VALIDATION
 const authority_register_validation = (data) => {
     const schema = {
-        first_name: Joi.string()
-                    .min(2)
-                    .required(),
-        last_name: Joi.string()
+        full_name: Joi.string()
                     .min(2)
                     .required(),
         contact: Joi.number()

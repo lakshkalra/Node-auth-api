@@ -23,8 +23,7 @@ router.post('/register',  async (req, res)=> {
 
     // CREATING USER
     const authority = new Authority({
-        first_name: req.body.first_name,
-        last_name: req.body.last_name,
+        full_name: req.body.full_name,
         contact: req.body.contact,
         id_number: req.body.id_number,
         email: req.body.email,
