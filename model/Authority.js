@@ -24,6 +24,10 @@ const authoritySchema = new mongoose.Schema({
         required: true,
         min: 6
     },
+    type:{
+        type:String,
+        required: true
+    },
     date:{
         type: Date,
         default: Date.now

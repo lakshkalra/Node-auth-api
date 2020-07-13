@@ -26,6 +26,7 @@ router.post('/register',  async (req, res)=> {
         full_name: req.body.full_name,
         contact: req.body.contact,
         id_number: req.body.id_number,
+        type: req.body.type,
         email: req.body.email,
         password: hashedpassword
     });
@@ -70,7 +71,8 @@ router.post('/login', async (req, res)=>{
     // CREATE AND ASSIGN TOKEN
     const token = jwt.sign({_id: authority._id}, process.env.AUTHORITY_TOKEN_SECRET);
     
-    res.header('authority-token', token).json(token);
+    res.header('authority-token', token).send({token:token,
+                                                type: authority.type});
 })
 
 module.exports = router;

@@ -8,6 +8,13 @@ var url = "mongodb://localhost:27017/";
 
 
 router.post('/result', (req,res)=>{
+
+    const bus_array = ['dwarka','moti nagar', 'jhande vala', 'saket', 'CS', 'chandni chowk',
+                         'civil lines', 'vishwa vidhyalay', 'samaypur badli', 'mandi house']
+
+    const interchange = ['rajori', 'rajiv chowk', 'kashmiri gate', 'azad nagar', 'NSP', 'indraprasth']
+    const metro_array = ['mayapyri', 'shalimar bagh', 'majis park', 'mukund pur', 'rithala', 'inderlok',
+                         'tiz hazari', 'shahdra', 'dilshad garden', 'shaheed shtal', 'mohan estate']
     
     let time = 0
     let distr_arr = []
@@ -63,50 +70,54 @@ router.post('/result', (req,res)=>{
         const first = Cost_map.path[i];
         const second = Cost_map.path[i+1];
     
+        if(bus_array.includes(Cost_map.path[i])) console.log("a", Cost_map.path[i])
+
         let price = cost_map(first, second).cost
 
-        if(Cost_map.path[i].includes('_B')){
+
+
+        if(bus_array.includes(Cost_map.path[i])){
             // bus.push(Cost_map.path[i])
             bus_arr.push(price)
-            transport['bus'+i] = Cost_map.path[i].substring(0, Cost_map.path[i].indexOf("_"))
+            transport['bus'+i] = Cost_map.path[i]
         }
-        else if(Cost_map.path[i].includes('_MB')){
+        else if(interchange.includes(Cost_map.path[i])){
             if(i == 0){
-                if(Cost_map.path[i+1].includes('_B')){
+                if(bus_array.includes(Cost_map.path[i+1])){
                     // bus.push(Cost_map.path[i])
                     bus_arr.push(price)
-                    transport['bus'+i] = Cost_map.path[i].substring(0, Cost_map.path[i].indexOf("_"))
-                }else if(!Cost_map.path[i+1].includes('_B')){
+                    transport['bus'+i] = Cost_map.path[i]
+                }else if(!bus_array.includes(Cost_map.path[i+1])){
                     // intermediatea.push(Cost_map.path[i])
                     bus_arr.push(price)
                     metro_arr.push(price)
-                    transport['change'+1] = Cost_map.path[i].substring(0, Cost_map.path[i].indexOf("_"))
+                    transport['change'+1] = Cost_map.path[i]
                 }
             }else {
-                if(Cost_map.path[i+1].includes('_B') && Cost_map.path[i-1].includes('_B')){
+                if(bus_array.includes(Cost_map.path[i+1]) && bus_array.includes(Cost_map.path[i-1])){
                     // bus.push(Cost_map.path[i])
                     bus_arr.push(price)
-                    transport['bus'+1] = Cost_map.path[i].substring(0, Cost_map.path[i].indexOf("_"))
-                }else if((Cost_map.path[i-1].includes('_B') && !Cost_map.path[i+1].includes('_B'))){
+                    transport['bus'+1] = Cost_map.path[i]
+                }else if((bus_array.includes(Cost_map.path[i-1]) && !bus_array.includes(Cost_map.path[i+1]))){
                     // intermediatea.push(Cost_map.path[i])
                     bus_arr.push(price)
                     metro_arr.push(price)
-                    transport['change'+i] = (Cost_map.path[i].substring(0, Cost_map.path[i].indexOf("_"))+ " Bus --> " 
-                                        +  Cost_map.path[i].substring(0, Cost_map.path[i].indexOf("_"))+ " Metro")
-                }else if((!Cost_map.path[i-1].includes('_B') && Cost_map.path[i+1].includes('_B'))){
+                    transport['change'+i] = (Cost_map.path[i]+ " Bus --> " 
+                                        +  Cost_map.path[i]+ " Metro")
+                }else if((!bus_array.includes(Cost_map.path[i-1]) && bus_array.includes(Cost_map.path[i+1]))){
                     // intermediatea.push(Cost_map.path[i])
                     bus_arr.push(price)
                     metro_arr.push(price)
-                    transport['change'+i] = (Cost_map.path[i].substring(0, Cost_map.path[i].indexOf("_"))+ " Metro --> " 
-                                        +  Cost_map.path[i].substring(0, Cost_map.path[i].indexOf("_"))+ " Bus")
-                }else if((!Cost_map.path[i-1].includes('_B') && !Cost_map.path[i+1].includes('_B'))){
+                    transport['change'+i] = (Cost_map.path[i]+ " Metro --> " 
+                                        +  Cost_map.path[i]+ " Bus")
+                }else if((!bus_array.includes(Cost_map.path[i-1]) && !bus_array.includes(Cost_map.path[i+1]))){
                     // intermediatea.push(Cost_map.path[i])
                     metro_arr.push(price)
-                    transport['metro'+i] = Cost_map.path[i].substring(0, Cost_map.path[i].indexOf("_"))
+                    transport['metro'+i] = Cost_map.path[i]
                 }
             }
 
-        }else if(!Cost_map.path[i].includes('_B') && !Cost_map.path[i].includes('_MB')){
+        }else if(!bus_array.includes(Cost_map.path[i]) && !interchange.includes(Cost_map.path[i])){
             // metro.push(Cost_map.path[i])
             metro_arr.push(price)
             transport['metro'+i] = Cost_map.path[i]
@@ -150,25 +161,26 @@ router.post('/result', (req,res)=>{
             }
         }
 
-        var apple = null
+        var apple = ''
 
         console.log('newarr',newarr)
 
 
-                MongoClient.connect(url, { useUnifiedTopology: true }, function(err, db) {
+                function a () {MongoClient.connect(url, { useUnifiedTopology: true }, function(err, db) {
                     if (err) throw err;
                     var dbo = db.db("ibm3");    
                     dbo.collection("buses").find({path: newarr[0]} ).toArray(function(err, result) {
                       if (err) throw err;
                       else{
-                        apple = result[0].number
-                        res.status(200)
+                        // console.log(result[0].number)
+                        return String(result[0].number)
                       }
                       
                       
                     });
-                  });
-            
+                  });}
+                  console.log('aa',a)
+                
         
         
          console.log(apple)

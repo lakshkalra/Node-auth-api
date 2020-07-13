@@ -11,6 +11,8 @@ const authority_register_validation = (data) => {
                     .required(),
         id_number: Joi.number()
                     .required(),
+        type: Joi.string()
+                    .required(),
         email: Joi.string()
                     .min(6)
                     .required()
