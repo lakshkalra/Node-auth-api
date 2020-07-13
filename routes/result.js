@@ -117,11 +117,11 @@ router.post('/result', (req,res)=>{
     metro_arr.pop()
 
     //PARTICULAR BUS AND METRO DISTANCE
-    console.log(bus_arr, metro_arr)
+    // console.log(bus_arr, metro_arr)
     bus_p = bus_arr.reduce((a, b) => a + b, 0)
     metro_p = metro_arr.reduce((a, b) => a + b, 0)
 
-    console.log(bus_fare(bus_p))
+    // console.log(bus_fare(bus_p))
 
     const total_price = bus_fare(bus_p) + metro_fare(metro_p)
 
@@ -154,10 +154,7 @@ router.post('/result', (req,res)=>{
 
         console.log('newarr',newarr)
 
-        var getConnection= function getConnection(callback) {
-            if (apple) {
-                callback(null,apple);}
-            else{
+
                 MongoClient.connect(url, { useUnifiedTopology: true }, function(err, db) {
                     if (err) throw err;
                     var dbo = db.db("ibm3");    
@@ -165,14 +162,14 @@ router.post('/result', (req,res)=>{
                       if (err) throw err;
                       else{
                         apple = result[0].number
-                        console.log('added')
+                        res.status(200)
                       }
-                      callback(err,apple)
+                      
                       
                     });
                   });
-            }
-        }
+            
+        
         
          console.log(apple)
     res.json({

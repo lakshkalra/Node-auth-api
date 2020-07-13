@@ -9,6 +9,7 @@ const cors = require('cors')
 const authRoute = require('./routes/user_auth');
 const userroute = require('./routes/dashboard');
 const authoritiesRoute = require('./routes/authorities_auth');
+const reschedule = require('./routes/reschedule')
 
 dotenv.config();
 
@@ -16,7 +17,7 @@ dotenv.config();
 // connect db
 mongoose.connect(
     process.env.DB_CONNECT,
-    { useNewUrlParser: true,useUnifiedTopology: true   } ,
+    { useNewUrlParser: true,useUnifiedTopology: true ,useFindAndModify:true ,useCreateIndex: true } ,
     ()=>(console.log('connect to db')));
 
 
@@ -27,8 +28,9 @@ app.use(cors())
 // ROute middleware
 app.use('/user', authRoute);
 app.use('/user', userroute);
-app.use('/authorities', authoritiesRoute);
 app.use('/user', require('./routes/result'))
+app.use('/authorities', authoritiesRoute);
+app.use('/authorities', reschedule)
 
 const port = 8080
 app.listen(port, () => console.log(`server on port ${port}`));
