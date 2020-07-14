@@ -28,6 +28,12 @@ router.post('/register',async (req, res) => {
         if(email_exist) 
             return res.status(400).send("email already exist!!")
 
+    // checking if contact already exist
+    const contact_exist = await User.findOne({contact: req.body.contact});
+
+        if(contact_exist) 
+            return res.status(400).send("contact already exist!!")
+
     // Password hashing with bcryptjs
     const salt = await bcrypt.genSalt(10);
     const hashedpassword = await bcrypt.hash(req.body.password, salt);
@@ -66,6 +72,8 @@ router.post('/login', async(req, res) =>{
 
         if(!user) 
             return res.status(400).send("email does not exist!!")
+
+
     // CHECK IF PASSWORD IS CORRECT
     const validPassword = await bcrypt.compare(req.body.password, user.password);
     if(!validPassword) 

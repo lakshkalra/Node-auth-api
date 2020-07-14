@@ -6,18 +6,30 @@ const bcrypt = require("bcryptjs");
 
 router.post('/booking',async (req,res) =>{
 
-    const id = req.body.id
+    // const id = req.body.id
+    const email = req.body.email
     const source = req.body.source
     const destination = req.body.destination
     const price = req.body.price
 
-    const user = await User.findById(id);
+    // const user = await User.findById(id);
 
-        if(!user) 
-            return res.status(400).send("email does not exist!!")
+    //     if(!user) 
+    //         return res.status(400).send("email does not exist!!")
 
-    const name =  user.first_name + " " + user.last_name
-    const age = user.age 
+    const email_exist = await User.findOne({email: req.body.email});
+
+    if(!email_exist)
+        res.send('nope')
+    // }
+
+    var name =  email_exist.first_name + " " + email_exist.last_name 
+    var age = email_exist.age
+
+    // console.log(email_exist.contact)
+    console.log(name,age)
+
+ 
 
 
     const ticket = new Ticket({

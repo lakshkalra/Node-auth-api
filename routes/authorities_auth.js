@@ -17,6 +17,18 @@ router.post('/register',  async (req, res)=> {
     if(emailExist) 
         return res.status(400).send("email already exist");
 
+    // checking if contact already exist
+    const contact_exist = await Authority.findOne({contact: req.body.contact});
+
+        if(contact_exist) 
+            return res.status(400).send("contact already exist!!")    
+    
+    
+    
+    
+    
+
+
     // PASSWORD HASHING
     const salt = await bcrypt.genSalt(10);
     const hashedpassword = await bcrypt.hash(req.body.password, salt);
