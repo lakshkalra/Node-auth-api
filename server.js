@@ -1,19 +1,18 @@
 const express = require("express")
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
-const ejs = require('ejs')
 
 const app = express();
 const cors = require('cors')
 
-// SET EJS
-app.set("view engine", "ejs")
 
 // import routes
 const authRoute = require('./routes/user_auth');
 const userroute = require('./routes/dashboard');
 const authoritiesRoute = require('./routes/authorities_auth');
 const reschedule = require('./routes/reschedule')
+const result = require('./routes/result')
+const booking = require('./routes/booking')
 
 dotenv.config();
 
@@ -32,9 +31,10 @@ app.use(cors())
 // ROute middleware
 app.use('/user', authRoute);
 app.use('/user', userroute);
-app.use('/user', require('./routes/result'))
+app.use('/user', result);
+app.use('/user', booking)
 app.use('/authorities', authoritiesRoute);
-app.use('/authorities', reschedule)
+app.use('/authorities', reschedule);
 
 const port = 8080
 app.listen(port, () => console.log(`server on port ${port}`));
