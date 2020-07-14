@@ -48,9 +48,9 @@ router.post('/reschedule/train',  (req, res) => {
       var dbo = db.db("ibm6");
       var myquery = { number: number  };
       var newvalues = { $set: { time: time } };
-      dbo.collection("trains").updateOne(myquery, newvalues, function (err, res) {
+      dbo.collection("trains").updateOne(myquery, newvalues, function (err, result) {
         if (err) throw err;
-        res.status(200).send('Document updated')
+        res.status(200).json('Document updated')
         db.close();
       });
     });
