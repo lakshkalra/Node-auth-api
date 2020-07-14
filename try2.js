@@ -29,36 +29,36 @@
 // // ])
 
 
-// // db.trains.insertMany([
-// //     {
-// //         type: 'train',
-// //         number: 3065,
-// //         source: "delhi",
-// //         capacity: 800,
-// //         destination: 'himachal pradesh',
-// //         time: "10:56 PM",
-// //         path: ['some path']
-// //     },
-// //     {
-// //         type: 'train',
-// //         number: 4392,
-// //         source: "chennai",
-// //         capacity: 850,
-// //         destination: 'delhi',
-// //         time: "10:56 PM",
-// //         path: ['some path']
-// //     },
-// //     {
-// //         type: 'train',
-// //         number: 7589,
-// //         source: "mumbai",
-// //         capacity: 780,
-// //         destination: 'bhopal',
-// //         time: "10:56 PM",
-// //         path: ['some path']
-// //     }
+// db.trains.insertMany([
+//     {
+//         type: 'train',
+//         number: 3065,
+//         source: "delhi",
+//         capacity: 800,
+//         destination: 'himachal pradesh',
+//         time: "10:56 PM",
+//         path: ['some path']
+//     },
+//     {
+//         type: 'train',
+//         number: 4392,
+//         source: "chennai",
+//         capacity: 850,
+//         destination: 'delhi',
+//         time: "10:56 PM",
+//         path: ['some path']
+//     },
+//     {
+//         type: 'train',
+//         number: 7589,
+//         source: "mumbai",
+//         capacity: 780,
+//         destination: 'bhopal',
+//         time: "10:56 PM",
+//         path: ['some path']
+//     }
 
-// // ])
+// ])
 
 
 // // const convertTime12to24 = (time12h) => {

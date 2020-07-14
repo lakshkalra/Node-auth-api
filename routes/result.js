@@ -79,48 +79,49 @@ router.post('/result', (req,res)=>{
         if(bus_array.includes(Cost_map.path[i])){
             // bus.push(Cost_map.path[i])
             bus_arr.push(price)
-            transport['bus'+i] = Cost_map.path[i]
+            transport['bus'+i] = Cost_map.path[i] + ' (Bus Stop)'
         }
         else if(interchange.includes(Cost_map.path[i])){
             if(i == 0){
                 if(bus_array.includes(Cost_map.path[i+1])){
                     // bus.push(Cost_map.path[i])
                     bus_arr.push(price)
-                    transport['bus'+i] = Cost_map.path[i]
+                    transport['bus'+i] = Cost_map.path[i] + ' (Bus Stop)'
                 }else if(!bus_array.includes(Cost_map.path[i+1])){
                     // intermediatea.push(Cost_map.path[i])
                     bus_arr.push(price)
                     metro_arr.push(price)
-                    transport['change'+1] = Cost_map.path[i]
+                    transport['change'+1] = (Cost_map.path[i]+ " Metro Station --[interchange]--> " 
+                                        +  Cost_map.path[i]+ " Bus Stop")
                 }
             }else {
                 if(bus_array.includes(Cost_map.path[i+1]) && bus_array.includes(Cost_map.path[i-1])){
                     // bus.push(Cost_map.path[i])
                     bus_arr.push(price)
-                    transport['bus'+1] = Cost_map.path[i]
+                    transport['bus'+1] = Cost_map.path[i] + ' (Bus Stop)'
                 }else if((bus_array.includes(Cost_map.path[i-1]) && !bus_array.includes(Cost_map.path[i+1]))){
                     // intermediatea.push(Cost_map.path[i])
                     bus_arr.push(price)
                     metro_arr.push(price)
-                    transport['change'+i] = (Cost_map.path[i]+ " Bus --> " 
-                                        +  Cost_map.path[i]+ " Metro")
+                    transport['change'+i] = (Cost_map.path[i]+ " (Bus Stop) --[interchange]--> " 
+                                        +  Cost_map.path[i]+ " (Metro Station)")
                 }else if((!bus_array.includes(Cost_map.path[i-1]) && bus_array.includes(Cost_map.path[i+1]))){
                     // intermediatea.push(Cost_map.path[i])
                     bus_arr.push(price)
                     metro_arr.push(price)
-                    transport['change'+i] = (Cost_map.path[i]+ " Metro --> " 
-                                        +  Cost_map.path[i]+ " Bus")
+                    transport['change'+i] = (Cost_map.path[i]+ " (Metro Station) --[interchange]--> " 
+                                        +  Cost_map.path[i]+ " (Bus Stop)")
                 }else if((!bus_array.includes(Cost_map.path[i-1]) && !bus_array.includes(Cost_map.path[i+1]))){
                     // intermediatea.push(Cost_map.path[i])
                     metro_arr.push(price)
-                    transport['metro'+i] = Cost_map.path[i]
+                    transport['metro'+i] = Cost_map.path[i] + ' (Metro Station)'
                 }
             }
 
         }else if(!bus_array.includes(Cost_map.path[i]) && !interchange.includes(Cost_map.path[i])){
             // metro.push(Cost_map.path[i])
             metro_arr.push(price)
-            transport['metro'+i] = Cost_map.path[i]
+            transport['metro'+i] = Cost_map.path[i] + ' (Metro Station)'
         }
     }
 
@@ -166,37 +167,42 @@ router.post('/result', (req,res)=>{
         console.log('newarr',newarr)
 
 
-                function a () {MongoClient.connect(url, { useUnifiedTopology: true }, function(err, db) {
-                    if (err) throw err;
-                    var dbo = db.db("ibm3");    
-                    dbo.collection("buses").find({path: newarr[0]} ).toArray(function(err, result) {
-                      if (err) throw err;
-                      else{
-                        // console.log(result[0].number)
-                        return String(result[0].number)
-                      }
-                      
-                      
-                    });
-                  });}
-                  console.log('aa',a)
+    // const PathSender = () =>  {
+    //     MongoClient.connect(url, { useUnifiedTopology: true }, function (err, db) {
+    //         if (err) throw err;
+    //         var dbo = db.db("ibm3");
+    //         dbo.collection("buses").find({ path: newarr[0] }).toArray(function (err, result) {
+    //             if (err) throw err;
+    //             else {
+    //                 // console.log(result[0].number)
+    //                 return result[0].number.toString()
+    //             }
+
+
+    //         });
+    //     });
+    // }
+
+
+
+
+                // var Rresult= pATHSE
+                //   console.log("func call here",Rresult)
                 
         
         
-         console.log(apple)
-    // res.json({
-    //     Best_route: {
-    //         path: transport,
-    //         total_distance: `${Cost_map.cost}km`,
-    //         time_taken: `${time.toFixed(2)} mins`,
-    //         total_price: `₹${total_price}`,
-    //         // 'bus number': apple,
-    //         arrival_time: arrival_time,
-    //         distributed_path: distr_arr
+    res.json({
+            path: transport,
+            total_distance: `${Cost_map.cost}km`,
+            time_taken: `${time.toFixed(2)} mins`,
+            total_price: `₹${total_price}`,
+            // 'bus number': apple,
+            arrival_time: arrival_time,
+            distributed_path: distr_arr
 
-    //     }
-    // })
-    res.render("home")
+    })
+
+    // res.render("home")
 
 })
 
