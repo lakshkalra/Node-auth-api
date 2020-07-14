@@ -38,6 +38,7 @@ router.post('/register',async (req, res) => {
         first_name: req.body.first_name,
         last_name: req.body.last_name,
         contact: Number(req.body.contact),
+        age: Number(req.body.age),
         email: req.body.email,
         password: hashedpassword,
     });
@@ -73,7 +74,8 @@ router.post('/login', async(req, res) =>{
 
     // CREATE AND ASSIGN TOKEN
     const token = jwt.sign({_id: user._id}, process.env.TOKEN_SECRET);
-    res.header('auth-token', token).send({token});
+    res.header('auth-token', token).json({token:token,
+                                        id: user._id});
 
 
     // res.send('Logged in');

@@ -12,6 +12,8 @@ const user_register_validation = (data) => {
         contact: Joi.number()
                     .min(8)
                     .required(),
+        age: Joi.number()
+                .required(),
         email: Joi.string()
                     .min(6)
                     .required()
