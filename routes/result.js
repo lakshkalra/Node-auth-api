@@ -198,8 +198,9 @@ router.post('/result', (req,res)=>{
             total_price: `₹${total_price}`,
             // 'bus number': apple,
             arrival_time: arrival_time,
-            distributed_path: distr_arr
-
+            distributed_path: distr_arr,
+            source: source,
+            destination: destination
     })
 
     // res.render("home")
