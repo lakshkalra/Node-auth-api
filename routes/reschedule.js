@@ -41,7 +41,7 @@ router.post('/reschedule/train',  (req, res) => {
 
   const number = Number(req.body.number);
   const time = String(req.body.time);
-  const source = String(req.body.source);
+  const name = String(req.body.name);
 
     MongoClient.connect(url, function (err, db) {
       if (err) throw err;

@@ -184,18 +184,19 @@ router.post('/result', (req,res)=>{
         
         
          console.log(apple)
-    res.json({
-        'Best route': {
-            path: transport,
-            'total distance': `${Cost_map.cost}km`,
-            "time taken": `${time.toFixed(2)} mins`,
-            "total price": `₹${total_price}`,
-            // 'bus number': apple,
-            "arrival time": arrival_time,
-            "distributed path": distr_arr
+    // res.json({
+    //     Best_route: {
+    //         path: transport,
+    //         total_distance: `${Cost_map.cost}km`,
+    //         time_taken: `${time.toFixed(2)} mins`,
+    //         total_price: `₹${total_price}`,
+    //         // 'bus number': apple,
+    //         arrival_time: arrival_time,
+    //         distributed_path: distr_arr
 
-        }
-    })
+    //     }
+    // })
+    res.render("home")
 
 })
 

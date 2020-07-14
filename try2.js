@@ -32,7 +32,7 @@
 // // db.trains.insertMany([
 // //     {
 // //         type: 'train',
-// //         number: 30665,
+// //         number: 3065,
 // //         source: "delhi",
 // //         capacity: 800,
 // //         destination: 'himachal pradesh',
@@ -41,7 +41,7 @@
 // //     },
 // //     {
 // //         type: 'train',
-// //         number: 43952,
+// //         number: 4392,
 // //         source: "chennai",
 // //         capacity: 850,
 // //         destination: 'delhi',
@@ -50,7 +50,7 @@
 // //     },
 // //     {
 // //         type: 'train',
-// //         number: 309,
+// //         number: 7589,
 // //         source: "mumbai",
 // //         capacity: 780,
 // //         destination: 'bhopal',

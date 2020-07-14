@@ -1,9 +1,13 @@
 const express = require("express")
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
+const ejs = require('ejs')
+
 const app = express();
 const cors = require('cors')
 
+// SET EJS
+app.set("view engine", "ejs")
 
 // import routes
 const authRoute = require('./routes/user_auth');
