@@ -12,24 +12,14 @@ router.post('/booking',async (req,res) =>{
     const destination = req.body.destination
     const price = req.body.price
 
-    // const user = await User.findById(id);
-
-    //     if(!user) 
-    //         return res.status(400).send("email does not exist!!")
 
     const email_exist = await User.findOne({email: req.body.email});
 
     if(!email_exist)
         res.send('nope')
-    // }
-
     var name =  email_exist.first_name + " " + email_exist.last_name 
     var age = email_exist.age
 
-    // console.log(email_exist.contact)
-    console.log(name,age)
-
- 
 
 
     const ticket = new Ticket({
@@ -41,7 +31,6 @@ router.post('/booking',async (req,res) =>{
     })
     try{
         const booked = await ticket.save();
-        // res.json({ticket: ticket.price});
         console.log("ticket booked")
     }catch(err){
         res.status(400).send(err)
@@ -53,7 +42,8 @@ router.post('/booking',async (req,res) =>{
     const salt = await bcrypt.genSalt(10);
     const hashed_Ticket = await bcrypt.hash(ticket_id, salt)
     
-    res.json({ticket:hashed_Ticket})
+    res.json({ticket:hashed_Ticket,
+              Date: Date.now})
 
 })
 module.exports = router;

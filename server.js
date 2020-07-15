@@ -35,6 +35,7 @@ app.use('/user', result);
 app.use('/user', booking)
 app.use('/authorities', authoritiesRoute);
 app.use('/authorities', reschedule);
+app.use('/authorities', require('./routes/autho-info'))
 
 const port = 8080
 app.listen(port, () => console.log(`server on port ${port}`));
