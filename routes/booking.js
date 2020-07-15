@@ -53,8 +53,7 @@ router.post('/booking',async (req,res) =>{
     const salt = await bcrypt.genSalt(10);
     const hashed_Ticket = await bcrypt.hash(ticket_id, salt)
     
-
-    res.send(hashed_Ticket)
+    res.json({ticket:hashed_Ticket})
 
 })
 module.exports = router;

@@ -200,7 +200,8 @@ router.post('/result', (req,res)=>{
             arrival_time: arrival_time,
             distributed_path: distr_arr,
             source: source,
-            destination: destination
+            destination: destination,
+            reach_time: reach_timee
     })
 
     // res.render("home")
