@@ -2,6 +2,7 @@ const router = require('express').Router();
 const Ticket = require('../model/booked_ticket')
 const User = require('../model/User')
 const bcrypt = require("bcryptjs");
+const { date } = require('@hapi/joi');
 
 
 router.post('/booking',async (req,res) =>{
@@ -41,9 +42,14 @@ router.post('/booking',async (req,res) =>{
 
     const salt = await bcrypt.genSalt(10);
     const hashed_Ticket = await bcrypt.hash(ticket_id, salt)
-    
+
+    let Ddate = ((ticket.date).toString()).split(" ")
+    console.log(Ddate)
+    // date = Ddate.subStrin(0, Ddate.indexOf('T'))
     res.json({ticket:hashed_Ticket,
-              Date: Date.now})
+              day: Ddate[0],
+              date: Ddate[1] + " " + Ddate[2]+ " "+ Ddate[3],
+              time: Ddate[4]})
 
 })
 module.exports = router;

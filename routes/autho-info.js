@@ -1,6 +1,8 @@
 const router = require('express').Router();
 var MongoClient = require('mongodb').MongoClient;
 var url = "mongodb://localhost:27017/";
+const Ticket = require('../model/booked_ticket');
+const { any } = require('@hapi/joi');
 
 
 
@@ -38,6 +40,23 @@ router.post('/train/information', (req,res)=>{
       }); 
 
     
+})
+
+router.get('/dashh', (req,res)=>{
+
+
+    // Ticket.find({}, function (err, docs) {
+    //     if(err) throw err;
+    //     res.status(200).send(docs)
+    // });
+
+    var tickets = 0
+
+    Ticket.countDocuments({}, function(error, numOfDocs) {
+        tickets = numOfDocs
+    });
+
+    res.status(200).json(tickets)
 })
 
 module.exports = router;
