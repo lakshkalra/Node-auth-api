@@ -12,6 +12,7 @@ router.post('/reschedule/bus', (req, res) => {
   const new_bus_no = Number(req.body.new_bus_no);
   const prev_bus_no = Number(req.body.prev_bus_no);
   const quantitys = Number(req.body.quantity);
+  // console.log(new_bus_no,prev_bus_no,quantitys)
 
     MongoClient.connect(url, { useUnifiedTopology: true }, function (err, db) {
       if (err) throw err;
@@ -27,7 +28,7 @@ router.post('/reschedule/bus', (req, res) => {
       var newvaluess = { $inc: { quantity: +quantitys } };
       dbo.collection("buses").updateOne(myquerys, newvaluess, function (err, result) {
         if (err) throw err;
-        res.status(200).send('Document updated')
+        res.status(200).json('Document updated')
         db.close();
       });
     });

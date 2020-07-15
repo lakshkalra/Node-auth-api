@@ -7,13 +7,13 @@ const { date } = require('@hapi/joi');
 
 router.post('/booking',async (req,res) =>{
 
-    // const id = req.body.id
     const email = req.body.email
     const source = req.body.source
     const destination = req.body.destination
     const price = req.body.price
 
 
+    // FETCHING USER DETAILS FROM DB
     const email_exist = await User.findOne({email: req.body.email});
 
     if(!email_exist)
@@ -22,7 +22,7 @@ router.post('/booking',async (req,res) =>{
     var age = email_exist.age
 
 
-
+    // CREATING TICKET
     const ticket = new Ticket({
         name: name,
         age: age,
@@ -32,10 +32,8 @@ router.post('/booking',async (req,res) =>{
     })
     try{
         const booked = await ticket.save();
-        console.log("ticket booked")
     }catch(err){
         res.status(400).send(err)
-        console.log(err)
     }
 
     let ticket_id = (ticket._id).toString()
@@ -44,8 +42,8 @@ router.post('/booking',async (req,res) =>{
     const hashed_Ticket = await bcrypt.hash(ticket_id, salt)
 
     let Ddate = ((ticket.date).toString()).split(" ")
-    console.log(Ddate)
-    // date = Ddate.subStrin(0, Ddate.indexOf('T'))
+
+    // SENDING JSON TO FRONTEND
     res.json({ticket:hashed_Ticket,
               day: Ddate[0],
               date: Ddate[1] + " " + Ddate[2]+ " "+ Ddate[3],

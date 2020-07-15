@@ -70,25 +70,21 @@ router.post('/result', (req,res)=>{
         const first = Cost_map.path[i];
         const second = Cost_map.path[i+1];
     
-        if(bus_array.includes(Cost_map.path[i])) console.log("a", Cost_map.path[i])
 
         let price = cost_map(first, second).cost
 
 
 
         if(bus_array.includes(Cost_map.path[i])){
-            // bus.push(Cost_map.path[i])
             bus_arr.push(price)
             transport['bus'+i] = Cost_map.path[i] + ' (Bus Stop)'
         }
         else if(interchange.includes(Cost_map.path[i])){
             if(i == 0){
                 if(bus_array.includes(Cost_map.path[i+1])){
-                    // bus.push(Cost_map.path[i])
                     bus_arr.push(price)
                     transport['bus'+i] = Cost_map.path[i] + ' (Bus Stop)'
                 }else if(!bus_array.includes(Cost_map.path[i+1])){
-                    // intermediatea.push(Cost_map.path[i])
                     bus_arr.push(price)
                     metro_arr.push(price)
                     transport['change'+1] = (Cost_map.path[i]+ " Metro Station --[interchange]--> " 
@@ -96,30 +92,25 @@ router.post('/result', (req,res)=>{
                 }
             }else {
                 if(bus_array.includes(Cost_map.path[i+1]) && bus_array.includes(Cost_map.path[i-1])){
-                    // bus.push(Cost_map.path[i])
                     bus_arr.push(price)
                     transport['bus'+1] = Cost_map.path[i] + ' (Bus Stop)'
                 }else if((bus_array.includes(Cost_map.path[i-1]) && !bus_array.includes(Cost_map.path[i+1]))){
-                    // intermediatea.push(Cost_map.path[i])
                     bus_arr.push(price)
                     metro_arr.push(price)
                     transport['change'+i] = (Cost_map.path[i]+ " (Bus Stop) --[interchange]--> " 
                                         +  Cost_map.path[i]+ " (Metro Station)")
                 }else if((!bus_array.includes(Cost_map.path[i-1]) && bus_array.includes(Cost_map.path[i+1]))){
-                    // intermediatea.push(Cost_map.path[i])
                     bus_arr.push(price)
                     metro_arr.push(price)
                     transport['change'+i] = (Cost_map.path[i]+ " (Metro Station) --[interchange]--> " 
                                         +  Cost_map.path[i]+ " (Bus Stop)")
                 }else if((!bus_array.includes(Cost_map.path[i-1]) && !bus_array.includes(Cost_map.path[i+1]))){
-                    // intermediatea.push(Cost_map.path[i])
                     metro_arr.push(price)
                     transport['metro'+i] = Cost_map.path[i] + ' (Metro Station)'
                 }
             }
 
         }else if(!bus_array.includes(Cost_map.path[i]) && !interchange.includes(Cost_map.path[i])){
-            // metro.push(Cost_map.path[i])
             metro_arr.push(price)
             transport['metro'+i] = Cost_map.path[i] + ' (Metro Station)'
         }
@@ -129,11 +120,9 @@ router.post('/result', (req,res)=>{
     metro_arr.pop()
 
     //PARTICULAR BUS AND METRO DISTANCE
-    // console.log(bus_arr, metro_arr)
     bus_p = bus_arr.reduce((a, b) => a + b, 0)
     metro_p = metro_arr.reduce((a, b) => a + b, 0)
 
-    // console.log(bus_fare(bus_p))
 
     const total_price = bus_fare(bus_p) + metro_fare(metro_p)
 
@@ -152,6 +141,7 @@ router.post('/result', (req,res)=>{
 
         const time_taken_hr = Number(timeConvert(time).replace(":",""))
         const arrival_time = String(reach_time-time_taken_hr).replace(/(..)$/, ":$1")
+        console.log(arrival_time,time_taken_hr)
 
 
         let newarr = []
@@ -162,41 +152,12 @@ router.post('/result', (req,res)=>{
             }
         }
 
-        var apple = ''
 
-        console.log('newarr',newarr)
-
-
-    // const PathSender = () =>  {
-    //     MongoClient.connect(url, { useUnifiedTopology: true }, function (err, db) {
-    //         if (err) throw err;
-    //         var dbo = db.db("ibm3");
-    //         dbo.collection("buses").find({ path: newarr[0] }).toArray(function (err, result) {
-    //             if (err) throw err;
-    //             else {
-    //                 // console.log(result[0].number)
-    //                 return result[0].number.toString()
-    //             }
-
-
-    //         });
-    //     });
-    // }
-
-
-
-
-                // var Rresult= pATHSE
-                //   console.log("func call here",Rresult)
-                
-        
-        
     res.json({
             path: transport,
             total_distance: `${Cost_map.cost}km`,
             time_taken: `${time.toFixed(2)} mins`,
             total_price: `₹${total_price}`,
-            // 'bus number': apple,
             arrival_time: arrival_time,
             distributed_path: distr_arr,
             source: source,
@@ -204,7 +165,6 @@ router.post('/result', (req,res)=>{
             reach_time: reach_timee
     })
 
-    // res.render("home")
 
 })
 
