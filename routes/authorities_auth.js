@@ -23,12 +23,6 @@ router.post('/register',  async (req, res)=> {
         if(contact_exist) 
             return res.status(400).send("contact already exist!!")    
     
-    
-    
-    
-    
-
-
     // PASSWORD HASHING
     const salt = await bcrypt.genSalt(10);
     const hashedpassword = await bcrypt.hash(req.body.password, salt);

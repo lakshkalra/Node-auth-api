@@ -5,6 +5,7 @@ const bus_schema = new mongoose.Schema({
     number: Number,
     source: String,
     destination: String,
+    quantity: Number,
     path: Array
 })
 

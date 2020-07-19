@@ -3,9 +3,10 @@ const verify = require('./authority_verify');
 const MongoClient = require('mongodb').MongoClient;
 const buses = require('../model/bus');
 const { ReadStream } = require('fs');
+const { Mongoose } = require('mongoose');
 
 
-router.post('/reschedule/bus', (req, res) => {
+router.post('/reschedule/bus', async(req, res) => {
 
   var url = "mongodb://localhost:27017/";
 
@@ -14,6 +15,17 @@ router.post('/reschedule/bus', (req, res) => {
   const quantitys = Number(req.body.quantity);
   // console.log(new_bus_no,prev_bus_no,quantitys)
 
+
+  await buses.find({number: prev_bus_no}, async(err, doc)=>{
+    if(err) throw err;
+
+    // console.log(prev_bus_no)
+    // console.log(doc)
+    if(doc[0].quantity - quantitys < 0){
+      res.status(400).json({er: 'not available',
+                            qty: doc[0].quantity})
+    }else{
+  
     MongoClient.connect(url, { useUnifiedTopology: true }, function (err, db) {
       if (err) throw err;
       var dbo = db.db("ibm6");
@@ -32,7 +44,8 @@ router.post('/reschedule/bus', (req, res) => {
         db.close();
       });
     });
-  
+  }
+  })
 });
 
 
@@ -58,4 +71,5 @@ router.post('/reschedule/train',  (req, res) => {
 });
   
 
+    
 module.exports = router
