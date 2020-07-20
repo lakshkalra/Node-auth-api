@@ -3,6 +3,7 @@ const router = require('express').Router();
 var MongoClient = require('mongodb').MongoClient;
 const {bus_fare, metro_fare} = require('../calcs/fare')
 const fs = require('fs');
+const verify = require('../routes/user_verification')
 
 var url = "mongodb://localhost:27017/";
 
@@ -152,6 +153,8 @@ router.post('/result', (req,res)=>{
             }
         }
 
+        console.log(transport)
+        console.log(newarr)
 
     res.json({
             path: transport,

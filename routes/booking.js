@@ -46,9 +46,16 @@ router.post('/booking',async (req,res) =>{
 
     // SENDING JSON TO FRONTEND
     res.json({ticket:hashed_Ticket,
+              name: ticket.name,
+              source: ticket.source,
+              destination: ticket.destination,
+              price: ticket.price,
+              
               day: Ddate[0],
               date: Ddate[1] + " " + Ddate[2]+ " "+ Ddate[3],
               time: Ddate[4]})
+
+    Ticket
 
 })
 

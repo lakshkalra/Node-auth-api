@@ -1,11 +1,11 @@
 const router = require('express').Router();
 var MongoClient = require('mongodb').MongoClient;
-var url = "mongodb://localhost:27017/";
 const Ticket = require('../model/booked_ticket');
-const { any } = require('@hapi/joi');
 const buses = require('../model/bus')
+const User = require('../model/User')
 
 
+var url = "mongodb://localhost:27017/";
 
 router.post('/bus/information', (req,res)=>{
      
@@ -45,13 +45,6 @@ router.post('/train/information', (req,res)=>{
     
 })
 
-router.get('/dashh', (req,res)=>{
-    const bus = req.body.bus_no
 
-
-    buses.findOne({ number: bus}, function (err, result) {
-        console.log(result)
-    });
-})
 
 module.exports = router;

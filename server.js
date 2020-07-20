@@ -13,6 +13,7 @@ const reschedule = require('./routes/reschedule')
 const result = require('./routes/result')
 const booking = require('./routes/booking')
 const auth_info = require('./routes/autho-info')
+const dashboard = require('./routes/dashboard')
 
 dotenv.config();
 
@@ -35,6 +36,7 @@ app.use('/user', booking)
 app.use('/authorities', authoritiesRoute);
 app.use('/authorities', reschedule);
 app.use('/authorities', auth_info)
+app.use('/authorities', dashboard)
 
 const port = 8080
 app.listen(port, () => console.log(`server on port ${port}`));
