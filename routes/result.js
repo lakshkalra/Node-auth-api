@@ -147,7 +147,7 @@ router.post('/result', (req,res)=>{
 
         let newarr = []
         for(i=0;i<Object.keys(transport).length-1;i++){
-            if(Object.keys(transport)[i].includes('bus')){
+            if(Object.keys(transport)[i].includes('bus') && Object.keys(transport)[i+1].includes('bus' || 'change')){
                 const z = Object.keys(transport)[i]
                 newarr.push(transport[z])
             }
