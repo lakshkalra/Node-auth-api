@@ -26,6 +26,7 @@ router.post('/booking',async (req,res) =>{
     const ticket = new Ticket({
         name: name,
         age: age,
+        email: email,
         source: source,
         destination: destination,
         price: price 
@@ -48,6 +49,22 @@ router.post('/booking',async (req,res) =>{
               day: Ddate[0],
               date: Ddate[1] + " " + Ddate[2]+ " "+ Ddate[3],
               time: Ddate[4]})
+
+})
+
+
+
+
+router.post('/mybooking', async (req,res)=>{
+    const email = req.body.email
+
+    await Ticket.find({email: email}, (err, result)=>{
+        if(err){
+            res.send(err)
+        }else{
+            res.json(result)
+        }
+    })
 
 })
 module.exports = router;

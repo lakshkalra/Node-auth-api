@@ -7,6 +7,9 @@ const booked_ticket = new mongoose.Schema({
     age:{
         type:Number
     },
+    email:{
+        type:String
+    },
     source:{
         type:String
     },
